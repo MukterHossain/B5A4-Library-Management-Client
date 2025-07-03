@@ -1,17 +1,18 @@
 import { Link } from "react-router";
 import { ModeToggle } from "../mode-toggle";
+import Logo from "../../assets/Logo.png"
 
 
 export default function Navber() {
     return (
-        <div className=" h-16 flex items-center gap-3 ">
-            <div className="flex w-full justify-between ">
-                <div className="flex  flex-start w-1/5">
-                    <span className="font-extrabold text-2xl text-green-800">Logo</span>
+        <div className=" h-16  shadow px-2 flex items-center">
+            <div className="flex w-full justify-between items-center">
+                <div className="flex  flex-start ">
+                <img src={Logo} alt="Logo" className="w-[50px] "/>                  
                 </div>
-                <div className="flex justify-center gap-x-4 w-4/5 font-bold">
+                <div className="flex justify-center text-[13px] sm:text-[16px] gap-x-2 sm:gap-x-4 w-4/5 font-bold">
                     <Link to="/books">All Books</Link>
-                    <Link to="/add-book">Add Book</Link>
+                    <Link to="/create-book">Add Book</Link>
                     <Link to="/borrow">Borrow Summary</Link>
                 </div>
                 <div>

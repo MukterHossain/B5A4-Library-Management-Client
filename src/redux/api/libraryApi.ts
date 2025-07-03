@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import type { Book, Borrow } from "../../types";
 
 export const librayApi = createApi({
     reducerPath:"librayApi",
@@ -8,15 +9,34 @@ export const librayApi = createApi({
     tagTypes: ["Books", "Borrows"],
     endpoints: (builder) =>({
         getBooks: builder.query<Book[], void>({
-            query: () => "books",
+            query: () => "/books",
             providesTags: ["Books"]
         }),
-        createBook: builder.mutation<void, Partial<Book>>({
-            query: (book) =>({
-                url: "books",
+        getBook: builder.query<Book, string>({
+            query: (id) => `/books/${id}`
+        }),
+        addBook: builder.mutation<Book, Partial<Book>>({
+            query: (body) =>({
+                url: "/books",
                 method:"POST",
-                body: book
-            })
+                body
+            }),
+            invalidatesTags: ["Books"]
+        }),
+        updateBook: builder.mutation<Book, {id: string, data: Partial<Book>}>({
+            query: ({id, data}) =>({
+                url: `/books/${id}`,
+                method:"PUT",
+                body : data
+            }),
+            invalidatesTags: ["Books"]
+        }),
+        deleteBook: builder.mutation<{message: string}, string>({
+            query: (id) =>({
+                url: `/books/${id}`,
+                method:"DELETE",
+            }),
+            invalidatesTags: ["Books"]
         }),
 
         // Borrow section
@@ -31,7 +51,7 @@ export const librayApi = createApi({
             body:rest
            })
         }),
-        getBorrowSummary: builder.query<BorrowSummary[], void>({
+        getBorrowSummary: builder.query<Borrow[], void>({
             query: () => "borrow/summary",
             providesTags: ["Borrows"]
         })
@@ -39,7 +59,15 @@ export const librayApi = createApi({
 })
 
 
-export const {useBorrowBookMutation, useCreateBookMutation,useGetBooksQuery,useGetBorrowSummaryQuery} = librayApi;
+export const {
+    useBorrowBookMutation,
+    useGetBookQuery,  
+    useAddBookMutation,
+    useGetBooksQuery,
+    useGetBorrowSummaryQuery,
+    useUpdateBookMutation,
+    useDeleteBookMutation
+} = librayApi;
 
 
 
