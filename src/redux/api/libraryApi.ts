@@ -1,29 +1,29 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import type { Book, Borrow } from "../../types";
+// import type { Book, Borrow } from "../../types";
 
 export const librayApi = createApi({
     reducerPath:"librayApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.API_BASE_URL || "http://localhost:5000/"
+        baseUrl: import.meta.env.API_BASE_URL || "http://localhost:5000/api"
     }),
     tagTypes: ["Books", "Borrows"],
     endpoints: (builder) =>({
-        getBooks: builder.query<Book[], void>({
+        getBooks: builder.query({
             query: () => "/books",
             providesTags: ["Books"]
         }),
-        getBook: builder.query<Book, string>({
+        getBook: builder.query({
             query: (id) => `/books/${id}`
         }),
-        addBook: builder.mutation<Book, Partial<Book>>({
-            query: (body) =>({
+        addBook: builder.mutation({
+            query: (bookData) =>({
                 url: "/books",
                 method:"POST",
-                body
+                body : bookData
             }),
             invalidatesTags: ["Books"]
         }),
-        updateBook: builder.mutation<Book, {id: string, data: Partial<Book>}>({
+        updateBook: builder.mutation({
             query: ({id, data}) =>({
                 url: `/books/${id}`,
                 method:"PUT",
@@ -41,20 +41,21 @@ export const librayApi = createApi({
 
         // Borrow section
         borrowBook: builder.mutation<void, {
-            bookId:string;
-            quentity: number;
+            id:string;
+            quantity: number;
             dueDate: string;
         }>({
-           query:({bookId, ...rest})=>({
-            url: `borrow/${bookId}`,
+           query:({id, ...rest})=>({
+            url: `borrow/${id}`,
             method: "POST",
             body:rest
-           })
+           }),
+           invalidatesTags: ["Borrows"]
         }),
-        getBorrowSummary: builder.query<Borrow[], void>({
-            query: () => "borrow/summary",
+        getBorrowSummary: builder.query({
+            query: () => "/borrow",
             providesTags: ["Borrows"]
-        })
+        }),
     })
 })
 

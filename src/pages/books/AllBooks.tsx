@@ -7,15 +7,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Link } from "react-router"
+import { Link } from "react-router";
+import Swal from 'sweetalert2'
+
+type BookData = {
+  _id:string;
+  title: string;
+  author: string;
+  genre: string;
+  isbn: string;
+  copies: number;
+  available: boolean;
+  description?: string;
+}
 
 export default function AllBooks() {
-  const { data: books, isLoading } = useGetBooksQuery( )
+  const { data: books, isLoading } = useGetBooksQuery(undefined)
   const [deleteBook] = useDeleteBookMutation()
+ 
   console.log(books)
+  const handleDelete = async(id:string)=>{
+    const result = Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+})
+if((await result).isConfirmed){
+  try {
+    const res = await deleteBook(id).unwrap()
+    Swal.fire({
+      title: "Deleted!",
+      text: res.message || "Your file has been deleted.",
+      icon: "success"
+    });
+  } catch (error) {
+    
+    console.log(error)
+  }
+}
+  }
  
 
-
+if(isLoading) return <p className="text-lg text-center mt-10 sm:mt-20 text-blue-700"> Data Loading...</p>
   return (
     <div>
       <div className="flex justify-between items-center gap-x-5">
@@ -25,7 +62,9 @@ export default function AllBooks() {
         </button>
       </div>
       
-      <Table>
+     <div>
+      {
+         books?.data > 0 ? isLoading : <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Title</TableHead>
@@ -38,7 +77,7 @@ export default function AllBooks() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {books?.data.map((book) => (
+        {books?.data.map((book: BookData) => (
           <TableRow key={book._id}>
             <TableCell className="font-medium">{book.title}</TableCell>
             <TableCell>{book.author}</TableCell>
@@ -47,14 +86,16 @@ export default function AllBooks() {
             <TableCell>{book.copies}</TableCell>
             <TableCell>{book.copies ? "YES" : "NO"}</TableCell>
             <TableCell className="text-right space-x-2">
-              <Link to={`/edit-book/${book._id}`} className="bg-blue-200">Edit</Link>
-              <button onClick={() =>book._id && deleteBook(book._id)}>Delete</button>
-              <Link to={`/borrow/${book._id}`} className="bg-blue-400">Borrow</Link>
+              <Link to={`/edit-book/${book._id}`} className="bg-blue-800 hover:bg-blue-600 py-1 px-2 rounded-sm duration-300 text-white">Edit</Link>
+              <button onClick={() =>handleDelete(book._id)} className="bg-pink-800 hover:bg-pink-600  py-1 px-2 rounded-sm duration-300 text-white">Delete</button>
+              <Link to={`/borrow/${book._id}`} className={`bg-green-800 hover:bg-green-600 duration-300 py-1 px-2 rounded-sm text-white ${book.copies == 0 && 'cursor-not-allowed'}`}>Borrow</Link>
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
+      }
+     </div>
     </div>
   )
 }

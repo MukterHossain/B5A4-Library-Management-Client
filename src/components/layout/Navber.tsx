@@ -13,7 +13,7 @@ export default function Navber() {
                 <div className="flex justify-center text-[13px] sm:text-[16px] gap-x-2 sm:gap-x-4 w-4/5 font-bold">
                     <Link to="/books">All Books</Link>
                     <Link to="/create-book">Add Book</Link>
-                    <Link to="/borrow">Borrow Summary</Link>
+                    <Link to="/summary">Borrow Summary</Link>
                 </div>
                 <div>
                     <ModeToggle></ModeToggle>
