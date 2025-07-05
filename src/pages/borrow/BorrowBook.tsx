@@ -13,7 +13,7 @@ export default function BorrowBook() {
     const [quantity, setQuantity] = useState(1);
     const [dueDate, setDueDate] = useState("");
 
-    console.log(book)
+    // console.log(book)
     if (isLoading) return <p>Loading...</p>
     if (!book) return <p>Book not found</p>
 
@@ -29,8 +29,8 @@ export default function BorrowBook() {
             alert("Plese select a due date")
         }
         try {
-            const res = await borrowBook({ id: id!, quantity, dueDate }).unwrap()
-            console.log(res)
+            await borrowBook({ id: id!, quantity, dueDate }).unwrap()
+            // console.log(res)
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -38,7 +38,7 @@ export default function BorrowBook() {
                 showConfirmButton: false,
                 timer: 1500
             });
-            navigete("/summary")
+            navigete("/borrow-summary")
         } catch (error) {
             console.log(error)
 
@@ -47,15 +47,15 @@ export default function BorrowBook() {
 
     }
     return (
-        <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold text-center py-5">Borrow Book</h1>
+        <div className="max-w-3xl mx-auto bg-gray-300 rounded-lg p-5">
+            <h1 className="text-2xl font-bold text-center py-5 mb-3 dark:text-gray-700">Borrow Book</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div className="mb-4 w-full border p-3">
+                    <div className="mb-4 w-full border p-3 shadow bg-gray-50 dark:text-gray-900 rounded-sm">
                         <input type="number" name="quantity" placeholder="Quantity"
                             min={1} max={book.data.copies} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} className="outline-0 w-full" required />
                     </div>
-                    <div className="mb-4 w-full border p-3">
+                    <div className="mb-4 w-full border p-3 shadow bg-gray-50 dark:text-gray-900 rounded-sm">
                         <input type="date" name="date" placeholder="Author" value={dueDate}
                             onChange={(e) => setDueDate(e.target.value)} className="outline-0 w-full" required />
                     </div>

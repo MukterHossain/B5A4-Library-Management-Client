@@ -1,69 +1,43 @@
-# React + TypeScript + Vite
+# B5A4-LIBRARY-MANAGEMENT-CLIENT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+* [live link: https://library-management-client-lovat.vercel.app]
+Library Management system where a person organize, track, and manage books, borrowers, and availability with ease.
 
-Currently, two official plugins are available:
+## Setup Section
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Technologies Used
 
-## Expanding the ESLint configuration
+* **Redux**
+* **React**
+* **Redux Toolkit and RTK Query**  State Management
+* **Shadcn ui**
+* **Typescript**
+* **tailwindcss**
+* **Tailwind CSS**
+* **sweetalert2**
+  
+  ### Set Environment Variables in **.env.local file**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **API_BASE_URL**
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+* All books list in table
+* Three action button Edit, Borrow and Delete books
+* Borrow books with quantity and due date validation
+* Automatically reduce book copiew and update availability
+* Respnsive all page
+* Ensure alert show for success message
+* Create baseApi for all CRUD operation
+* Add navbar and footer
+* Easy navigation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Page routes
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* **/books** Displays all books data in table
+* **/create-book** Create a Book
+* **/books/:id** Show detailed single book data
+* **/edit-book/:id** Update single book
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* **/borrow/:id** Create a borrowed book with conditionaly
+* **/borrow-summary** Borrowed Books Summary

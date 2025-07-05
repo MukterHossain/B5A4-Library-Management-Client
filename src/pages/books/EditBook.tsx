@@ -11,7 +11,7 @@ export default function EditBook() {
     const { data, isLoading } = useGetBookQuery(id!)
     const [updateBook] = useUpdateBookMutation()
     const book = data?.data
-    console.log(book)
+    // console.log(book)
 
 
 
@@ -51,36 +51,44 @@ export default function EditBook() {
     if (isLoading) return <p>Loading...</p>
     if (!book) return <p>Book not found</p>
     return (
-        <div>
-            <h1>Update Data</h1>
-            <div className="max-w-4xl mx-auto">
-                <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="mb-4 w-full border p-3">
-                            <input type="text" name="title" defaultValue={book.title} placeholder="Title" className="outline-0" required />
-                        </div>
-                        <div className="mb-4 w-full border p-3">
-                            <input type="text" name="author" defaultValue={book.author} placeholder="Author" className="outline-0" required />
-                        </div>
-                        <div className="mb-4 w-full border p-3">
-                            <input type="text" name="genre" defaultValue={book.genre} placeholder="Genre" className="outline-0" required />
-                        </div>
-                        <div className="mb-4 w-full border p-3">
-                            <input type="text" name="isbn" defaultValue={book.isbn} placeholder="ISBN" className="outline-0" required />
-                        </div>
-                        <div className="mb-4 w-full border p-3">
-                            <textarea name="description" defaultValue={book.description} placeholder="Description" className="outline-0"></textarea>
-                        </div>
-                        <div className="mb-4 w-full border p-3">
-                            <input type="number" name="copies" defaultValue={book.copies} placeholder="Copies" className="outline-0" required />
-                        </div>
+        <div className="max-w-3xl mx-auto bg-gray-300 rounded-lg p-5">
+            <h1 className="text-2xl font-bold my-4 dark:text-gray-700">Update Book  </h1>
+            <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="mb-4 w-full border p-3 shadow bg-gray-50 rounded-sm dark:text-gray-900">
+                        <input type="text" name="title" defaultValue={book.title} placeholder="Title" className="outline-0" required />
+                    </div>
+                    <div className="mb-4 w-full border p-3 rounded-sm shadow bg-gray-50 dark:text-gray-900">
+                        <input type="text" name="author" defaultValue={book.author} placeholder="Author" className="outline-0" required />
+                    </div>
+                    <div className="mb-4 w-full border rounded-sm p-3 shadow bg-gray-50 dark:text-gray-900">
+                        <select name="genre" defaultValue={book.genre} className="outline-0 w-full" required >
+                            <option value="" disabled>Select Genre</option>
+                            <option value="FICTION">FICTION</option>
+                            <option value="NON_FICTION">NON FICTION</option>
+                            <option value="SCIENCE">SCIENCE</option>
+                            <option value="HISTORY">HISTORY</option>
+                            <option value="BIOGRAPHY">BIOGRAPHY</option>
+                            <option value="FANTASY">FANTASY</option>
+                        </select>
+                    </div>
+                    <div className="mb-4 w-full border rounded-sm p-3 shadow bg-gray-50 dark:text-gray-900">
+                        <input type="text" name="isbn" defaultValue={book.isbn} placeholder="ISBN" className="outline-0" required />
+                    </div>
 
+                    <div className="mb-4 w-full h-13 border p-3 shadow rounded-sm bg-gray-50 dark:text-gray-900">
+                        <input type="number" name="copies" defaultValue={book.copies} placeholder="Copies" className="outline-0 w-full" required />
                     </div>
-                    <div className=" flex justify-end">
-                        <button type="submit" className="bg-blue-600 duration-300 text-white px-4 py-2 rounded-sm font-bold hover:bg-blue-500">Update Book</button>
+                    <div className="mb-4 w-full border rounded-sm p-3 shadow bg-gray-50 dark:text-gray-900">
+                        <textarea name="description" value={book.description} placeholder="Description" className="outline-0 w-full"></textarea>
                     </div>
-                </form>
-            </div>
+
+                </div>
+
+                <div className=" flex justify-end">
+                    <button type="submit" className="bg-blue-600 duration-300 text-white px-4 py-2 rounded-sm font-bold hover:bg-blue-500">Update Book</button>
+                </div>
+            </form>
         </div>
     )
 }
